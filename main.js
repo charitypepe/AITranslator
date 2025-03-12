@@ -16,6 +16,7 @@ if (!recognition) {
 
   startBtn.onclick = () => {
     if (startBtn.textContent === 'Запис') {
+      finalText = ''; // Нулира предишния текст
       result.value = 'Стартиране на запис...';
       recog.lang = sourceLang.value;
       try {
@@ -27,7 +28,8 @@ if (!recognition) {
       }
     } else {
       recog.stop();
-      result.value = finalText || 'Разпознаването спря';
+      result.value = 'Превод в процес...';
+      translateText(finalText, sourceLang.value, targetLang.value);
       startBtn.textContent = 'Запис';
     }
   };
@@ -44,12 +46,12 @@ if (!recognition) {
     let interimText = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
       if (event.results[i].isFinal) {
-        finalText = event.results[i][0].transcript;
+        finalText += event.results[i][0].transcript + ' ';
       } else {
         interimText += event.results[i][0].transcript;
       }
     }
-    result.value = finalText || interimText || 'Разпознаване в процес...';
+    result.value = finalText.trim() || interimText || 'Разпознаване в процес...';
   };
 
   recog.onerror = (event) => {
@@ -59,9 +61,33 @@ if (!recognition) {
 
   recog.onend = () => {
     if (startBtn.textContent === 'Спри') {
-      recog.start(); // Рестартира автоматично, за да продължи
+      recog.start(); // Рестартира, докато не спреш ръчно
     } else {
-      result.value = finalText || 'Разпознаването спря';
+      translateText(finalText, sourceLang.value, targetLang.value);
     }
   };
+
+  function translateText(text, source, target) {
+    if (!text) {
+      result.value = 'Няма текст за превод';
+      return;
+    }
+    fetch('https://libretranslate.com/translate', {
+      method: 'POST',
+      body: JSON.stringify({
+        q: text,
+        source: source,
+        target: target,
+        format: 'text'
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      result.value = data.translatedText || 'Грешка при превод';
+    })
+    .catch(error => {
+      result.value = 'Грешка при превод: ' + error.message;
+    });
+  }
 }

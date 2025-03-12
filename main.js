@@ -24,6 +24,10 @@ startBtn.onclick = () => {
   }
 };
 
+recognition.onstart = () => {
+  result.value = 'Разпознаването започна';
+};
+
 recognition.onresult = (event) => {
   result.value = 'Резултат получен';
   let interimText = '';

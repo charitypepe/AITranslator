@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Преводач</title>
+  <style>
+    body { padding: 20px; font-family: Arial; background: #f0f0f0; }
+    select, button, textarea { width: 100%; margin: 10px 0; padding: 10px; font-size: 16px; }
+    button { background: #007bff; color: white; border: none; border-radius: 5px; }
+    button:hover { background: #0056b3; }
+    textarea { resize: none; }
+  </style>
+</head>
+<body>
+  <h1>Преводач в реално време</h1>
+  <select id="sourceLang">
+    <option value="bg">Български</option>
+    <option value="en">Английски</option>
+    <option value="fr">Френски</option>
+  </select>
+  <select id="targetLang">
+    <option value="en">Английски</option>
+    <option value="bg">Български</option>
+    <option value="fr">Френски</option>
+  </select>
+  <button id="start">Запис</button>
+  <textarea id="result" rows="4" placeholder="Резултат..."></textarea>
+  <button id="speak">Говори</button>
+
+  <script src="main.js"></script>
+</body>
+</html>

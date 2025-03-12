@@ -39,6 +39,18 @@ recognition.onstart = () => {
   result.value = 'Разпознаването започна';
 };
 
+recognition.onaudiostart = () => {
+  result.value = 'Аудио започна – микрофонът улавя звук';
+};
+
+recognition.onsoundstart = () => {
+  result.value = 'Звук открит';
+};
+
+recognition.onspeechstart = () => {
+  result.value = 'Гovor открит';
+};
+
 recognition.onresult = (event) => {
   result.value = 'Резултат получен';
   let interimText = '';

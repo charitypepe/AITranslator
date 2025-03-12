@@ -2,7 +2,7 @@ const startBtn = document.getElementById('start');
 const result = document.getElementById('result');
 const sourceLang = document.getElementById('sourceLang');
 
-result.value = 'main.js е зареден!'; // Показва, че JS работи
+result.value = 'main.js е зареден!';
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.continuous = true;
@@ -11,15 +11,21 @@ recognition.interimResults = true;
 startBtn.onclick = () => {
   result.value = 'Кликнат "Запис", език: ' + sourceLang.value;
   recognition.lang = sourceLang.value;
-  recognition.start();
-  startBtn.textContent = 'Спри';
-  startBtn.onclick = () => {
-    result.value = 'Кликнат "Спри"';
-    recognition.stop();
-  };
+  try {
+    recognition.start();
+    result.value = 'Разпознаване стартирано';
+    startBtn.textContent = 'Спри';
+    startBtn.onclick = () => {
+      result.value = 'Кликнат "Спри"';
+      recognition.stop();
+    };
+  } catch (error) {
+    result.value = 'Грешка при стартиране: ' + error.message;
+  }
 };
 
 recognition.onresult = (event) => {
+  result.value = 'Резултат получен';
   let interimText = '';
   let finalText = '';
   for (let i = event.resultIndex; i < event.results.length; i++) {

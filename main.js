@@ -73,5 +73,5 @@ recognition.onend = () => {
 };
 
 recognition.onerror = (event) => {
-  result.value = 'Грешка: ' + event.error;
+  result.value = 'Грешка: ' + event.error + ' (подробности: ' + (event.message || 'няма допълнително инфо') + ')';
 };

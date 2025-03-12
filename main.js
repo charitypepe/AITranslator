@@ -8,21 +8,27 @@ const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognit
 recognition.continuous = true;
 recognition.interimResults = true;
 
-startBtn.onclick = () => {
+function startRecognition() {
   result.value = 'Кликнат "Запис", език: ' + sourceLang.value;
   recognition.lang = sourceLang.value;
   try {
     recognition.start();
     result.value = 'Разпознаване стартирано';
     startBtn.textContent = 'Спри';
-    startBtn.onclick = () => {
-      result.value = 'Кликнат "Спри"';
-      recognition.stop();
-    };
+    startBtn.onclick = stopRecognition;
   } catch (error) {
     result.value = 'Грешка при стартиране: ' + error.message;
   }
-};
+}
+
+function stopRecognition() {
+  result.value = 'Кликнат "Спри"';
+  recognition.stop();
+  startBtn.textContent = 'Запис';
+  startBtn.onclick = startRecognition;
+}
+
+startBtn.onclick = startRecognition;
 
 recognition.onstart = () => {
   result.value = 'Разпознаването започна';
@@ -46,9 +52,7 @@ recognition.onresult = (event) => {
 recognition.onend = () => {
   result.value = 'Разпознаването спря';
   startBtn.textContent = 'Запис';
-  startBtn.onclick = () => {
-    recognition.start();
-  };
+  startBtn.onclick = startRecognition;
 };
 
 recognition.onerror = (event) => {

@@ -23,7 +23,12 @@ function startRecognition() {
 
 function stopRecognition() {
   result.value = 'Кликнат "Спри"';
-  recognition.stop();
+  try {
+    recognition.stop();
+    result.value = 'Спиране извикано';
+  } catch (error) {
+    result.value = 'Грешка при спиране: ' + error.message;
+  }
   startBtn.textContent = 'Запис';
   startBtn.onclick = startRecognition;
 }

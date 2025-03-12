@@ -18,6 +18,13 @@ if (!recognition) {
     try {
       recog.start();
       result.value = 'Разпознаване започна';
+      startBtn.textContent = 'Спри';
+      startBtn.onclick = () => {
+        recog.stop();
+        result.value = 'Разпознаването спря';
+        startBtn.textContent = 'Запис';
+        startBtn.onclick = startBtn.onclick; // Връща оригиналния старт
+      };
     } catch (e) {
       result.value = 'Грешка при старт: ' + e.message;
     }
@@ -33,12 +40,15 @@ if (!recognition) {
 
   recog.onresult = (event) => {
     let finalText = '';
+    let interimText = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
       if (event.results[i].isFinal) {
         finalText += event.results[i][0].transcript;
+      } else {
+        interimText += event.results[i][0].transcript;
       }
     }
-    result.value = finalText || 'Няма окончателен текст още';
+    result.value = finalText || interimText || 'Разпознаване в процес...';
   };
 
   recog.onerror = (event) => {

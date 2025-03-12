@@ -5,29 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Преводач</title>
   <style>
-    body { padding: 20px; font-family: Arial; background: #f0f0f0; }
-    select, button, textarea { width: 100%; margin: 10px 0; padding: 10px; font-size: 16px; }
-    button { background: #007bff; color: white; border: none; border-radius: 5px; }
-    button:hover { background: #0056b3; }
-    textarea { resize: none; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      width: 100%;
+      max-width: 500px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    select, button, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+    select {
+      background: #fff;
+      color: #333;
+    }
+    button {
+      background: #00c4cc;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #009ba1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    textarea {
+      resize: none;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+    }
   </style>
 </head>
 <body>
-  <h1>Преводач в реално време</h1>
-  <select id="sourceLang">
-    <option value="bg">Български</option>
-    <option value="en">Английски</option>
-    <option value="fr">Френски</option>
-  </select>
-  <select id="targetLang">
-    <option value="en">Английски</option>
-    <option value="bg">Български</option>
-    <option value="fr">Френски</option>
-  </select>
-  <button id="start">Запис</button>
-  <textarea id="result" rows="4" placeholder="Резултат..."></textarea>
-  <button id="speak">Говори</button>
-
+  <div class="container">
+    <h1>AI Преводач</h1>
+    <select id="sourceLang">
+      <option value="bg">Български</option>
+      <option value="en">Английски</option>
+      <option value="fr">Френски</option>
+    </select>
+    <select id="targetLang">
+      <option value="en">Английски</option>
+      <option value="bg">Български</option>
+      <option value="fr">Френски</option>
+    </select>
+    <button id="start">Запис</button>
+    <textarea id="result" placeholder="Резултат..."></textarea>
+    <button id="speak">Говори</button>
+  </div>
   <script src="main.js"></script>
 </body>
 </html>

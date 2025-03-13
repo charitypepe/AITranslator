@@ -4,6 +4,7 @@ const sourceLang = document.getElementById('sourceLang');
 const targetLang = document.getElementById('targetLang');
 
 let finalText = '';
+let isSubscribed = false; // Прост абонаментен флаг (за тест)
 result.value = 'main.js е зареден!';
 
 const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -15,10 +16,14 @@ if (!recognition) {
   recog.interimResults = true;
 
   startBtn.onclick = () => {
+    if (!isSubscribed) {
+      result.value = 'Моля, абонирайте се за пълен достъп!';
+      return;
+    }
     if (startBtn.textContent === 'Запис') {
-      finalText = ''; // Нулира предишния текст
+      finalText = '';
       result.value = 'Стартиране на запис...';
-      recog.lang = sourceLang.value;
+      recog.lang = sourceLang.value; // Увери се, че езикът е правилен
       try {
         recog.start();
         result.value = 'Разпознаване започна';
@@ -61,7 +66,7 @@ if (!recognition) {
 
   recog.onend = () => {
     if (startBtn.textContent === 'Спри') {
-      recog.start(); // Рестартира, докато не спреш ръчно
+      recog.start();
     } else {
       translateText(finalText, sourceLang.value, targetLang.value);
     }
@@ -86,8 +91,4 @@ if (!recognition) {
     .then(data => {
       result.value = data.translatedText || 'Грешка при превод';
     })
-    .catch(error => {
-      result.value = 'Грешка при превод: ' + error.message;
-    });
-  }
-}
+    .catch(error =>
